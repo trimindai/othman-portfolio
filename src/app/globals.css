@@ -42,10 +42,39 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* QR code — visually hidden on screen but still loaded by browser */
+.print-qr {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 @media print {
   *, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 
   body { background: #0a1628 !important; margin: 0 !important; }
+
+  /* QR code — right side of hero */
+  #hero .print-qr {
+    display: block !important;
+    position: absolute !important;
+    top: 48px !important;
+    right: 48px !important;
+    left: auto !important;
+    width: 80px !important;
+    height: 80px !important;
+    clip: auto !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+    z-index: 9999 !important;
+    border-radius: 6px !important;
+    background: #fff !important;
+    padding: 5px !important;
+  }
 
   /* Each section = exactly one printed page */
   section {
@@ -101,8 +130,8 @@ body {
   h1 { font-size: 48px !important; }
   h2 { font-size: 28px !important; }
 
-  /* Photo sizing */
-  #hero img { width: 180px !important; height: 220px !important; }
+  /* Photo sizing — exclude QR */
+  #hero img:not(.print-qr) { width: 180px !important; height: 220px !important; }
 
   /* Competency bars show full width */
   [class*="comp-bar"], [style*="width"] { transition: none !important; }
@@ -130,4 +159,21 @@ body.printing-cv .hero-actions,
 body.printing-cv .contact-form,
 body.printing-cv .fixed.rounded-full {
   display: none !important;
+}
+/* Show QR when printing-cv class is active (JS-triggered print) */
+body.printing-cv #hero .print-qr {
+  display: block !important;
+  position: absolute !important;
+  top: 48px !important;
+  right: 48px !important;
+  left: auto !important;
+  width: 80px !important;
+  height: 80px !important;
+  clip: auto !important;
+  overflow: visible !important;
+  opacity: 1 !important;
+  z-index: 9999 !important;
+  border-radius: 6px !important;
+  background: #fff !important;
+  padding: 5px !important;
 }
